@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A1C41981996EFD6006FE4E7 /* abstractEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A1C41961996EFD6006FE4E7 /* abstractEntity.cpp */; };
+		6A1C419B1996F08E006FE4E7 /* entityManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A1C41991996F08E006FE4E7 /* entityManager.cpp */; };
+		6AC345621996B5E3004BC3C1 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AC345601996B5E3004BC3C1 /* Game.cpp */; };
 		6AF227101995EB8000E87C90 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AF2270F1995EB8000E87C90 /* main.cpp */; };
 		6AF227121995EB8000E87C90 /* sdl_hello.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6AF227111995EB8000E87C90 /* sdl_hello.1 */; };
+		6AF227191995EC2700E87C90 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AF227181995EC2700E87C90 /* SDL2.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,9 +29,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6A1C41961996EFD6006FE4E7 /* abstractEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = abstractEntity.cpp; sourceTree = "<group>"; };
+		6A1C41971996EFD6006FE4E7 /* abstractEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = abstractEntity.h; sourceTree = "<group>"; };
+		6A1C41991996F08E006FE4E7 /* entityManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = entityManager.cpp; sourceTree = "<group>"; };
+		6A1C419A1996F08E006FE4E7 /* entityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entityManager.h; sourceTree = "<group>"; };
+		6AC345601996B5E3004BC3C1 /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
+		6AC345611996B5E3004BC3C1 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
 		6AF2270C1995EB8000E87C90 /* sdl-hello */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "sdl-hello"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AF2270F1995EB8000E87C90 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		6AF227111995EB8000E87C90 /* sdl_hello.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = sdl_hello.1; sourceTree = "<group>"; };
+		6AF227181995EC2700E87C90 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,15 +46,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AF227191995EC2700E87C90 /* SDL2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6A1C41951996EFCA006FE4E7 /* entity */ = {
+			isa = PBXGroup;
+			children = (
+				6A1C41961996EFD6006FE4E7 /* abstractEntity.cpp */,
+				6A1C41971996EFD6006FE4E7 /* abstractEntity.h */,
+				6A1C41991996F08E006FE4E7 /* entityManager.cpp */,
+				6A1C419A1996F08E006FE4E7 /* entityManager.h */,
+			);
+			path = entity;
+			sourceTree = "<group>";
+		};
 		6AF227031995EB8000E87C90 = {
 			isa = PBXGroup;
 			children = (
+				6AF227181995EC2700E87C90 /* SDL2.framework */,
 				6AF2270E1995EB8000E87C90 /* sdl-hello */,
 				6AF2270D1995EB8000E87C90 /* Products */,
 			);
@@ -60,10 +84,29 @@
 		6AF2270E1995EB8000E87C90 /* sdl-hello */ = {
 			isa = PBXGroup;
 			children = (
+				6AF2271C1995F83A00E87C90 /* src */,
 				6AF2270F1995EB8000E87C90 /* main.cpp */,
 				6AF227111995EB8000E87C90 /* sdl_hello.1 */,
 			);
 			path = "sdl-hello";
+			sourceTree = "<group>";
+		};
+		6AF2271C1995F83A00E87C90 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				6A1C41951996EFCA006FE4E7 /* entity */,
+				6AF2271D1995F83A00E87C90 /* core */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		6AF2271D1995F83A00E87C90 /* core */ = {
+			isa = PBXGroup;
+			children = (
+				6AC345601996B5E3004BC3C1 /* Game.cpp */,
+				6AC345611996B5E3004BC3C1 /* Game.h */,
+			);
+			path = core;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -117,6 +160,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AC345621996B5E3004BC3C1 /* Game.cpp in Sources */,
+				6A1C41981996EFD6006FE4E7 /* abstractEntity.cpp in Sources */,
+				6A1C419B1996F08E006FE4E7 /* entityManager.cpp in Sources */,
 				6AF227101995EB8000E87C90 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -197,6 +243,10 @@
 		6AF227161995EB8000E87C90 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -204,6 +254,10 @@
 		6AF227171995EB8000E87C90 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -227,6 +281,7 @@
 				6AF227171995EB8000E87C90 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
