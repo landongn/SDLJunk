@@ -18,6 +18,8 @@ public:
     ~Game() {}
     
     bool init (const char* title, int xpos, int ypos, int width, int height, int flags);
+    void loadImage();
+    void renderTexture(SDL_Texture* tex, SDL_Renderer* renderer, int x, int y);
     void render();
     void update();
     void handleEvents();
@@ -28,6 +30,9 @@ private:
     bool gameRunning;
     SDL_Window* mainWindow;
     SDL_Renderer* mainRenderer;
+    SDL_Texture* mainTexture;
+    int m_x = 1;
+    int m_y = 1;
 };
 
 #endif /* defined(__sdl_hello__Game__) */

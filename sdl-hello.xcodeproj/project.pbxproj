@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		372E171C19B8CFCF00BA5861 /* hello.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 372E171A19B8CEB100BA5861 /* hello.bmp */; };
 		6A1C41981996EFD6006FE4E7 /* abstractEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A1C41961996EFD6006FE4E7 /* abstractEntity.cpp */; };
 		6A1C419B1996F08E006FE4E7 /* entityManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A1C41991996F08E006FE4E7 /* entityManager.cpp */; };
 		6AC345621996B5E3004BC3C1 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AC345601996B5E3004BC3C1 /* Game.cpp */; };
@@ -18,17 +19,19 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		6AF2270A1995EB8000E87C90 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = Resources;
+			dstSubfolderSpec = 16;
 			files = (
+				372E171C19B8CFCF00BA5861 /* hello.bmp in CopyFiles */,
 				6AF227121995EB8000E87C90 /* sdl_hello.1 in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		372E171A19B8CEB100BA5861 /* hello.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = hello.bmp; path = "sdl-hello/hello.bmp"; sourceTree = "<group>"; };
 		6A1C41961996EFD6006FE4E7 /* abstractEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = abstractEntity.cpp; sourceTree = "<group>"; };
 		6A1C41971996EFD6006FE4E7 /* abstractEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = abstractEntity.h; sourceTree = "<group>"; };
 		6A1C41991996F08E006FE4E7 /* entityManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = entityManager.cpp; sourceTree = "<group>"; };
@@ -53,6 +56,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		372E171B19B8CFC000BA5861 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				372E171A19B8CEB100BA5861 /* hello.bmp */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		6A1C41951996EFCA006FE4E7 /* entity */ = {
 			isa = PBXGroup;
 			children = (
@@ -70,6 +81,7 @@
 				6AF227181995EC2700E87C90 /* SDL2.framework */,
 				6AF2270E1995EB8000E87C90 /* sdl-hello */,
 				6AF2270D1995EB8000E87C90 /* Products */,
+				372E171B19B8CFC000BA5861 /* Resources */,
 			);
 			sourceTree = "<group>";
 		};
@@ -247,6 +259,10 @@
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/system",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -257,6 +273,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/system",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
