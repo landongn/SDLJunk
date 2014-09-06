@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		372E171C19B8CFCF00BA5861 /* hello.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 372E171A19B8CEB100BA5861 /* hello.bmp */; };
+		372E172119BAE0EF00BA5861 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 372E172019BAE0EF00BA5861 /* JavaScriptCore.framework */; };
 		6A1C41981996EFD6006FE4E7 /* abstractEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A1C41961996EFD6006FE4E7 /* abstractEntity.cpp */; };
 		6A1C419B1996F08E006FE4E7 /* entityManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A1C41991996F08E006FE4E7 /* entityManager.cpp */; };
 		6AC345621996B5E3004BC3C1 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AC345601996B5E3004BC3C1 /* Game.cpp */; };
@@ -32,6 +33,7 @@
 
 /* Begin PBXFileReference section */
 		372E171A19B8CEB100BA5861 /* hello.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = hello.bmp; path = "sdl-hello/hello.bmp"; sourceTree = "<group>"; };
+		372E172019BAE0EF00BA5861 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		6A1C41961996EFD6006FE4E7 /* abstractEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = abstractEntity.cpp; sourceTree = "<group>"; };
 		6A1C41971996EFD6006FE4E7 /* abstractEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = abstractEntity.h; sourceTree = "<group>"; };
 		6A1C41991996F08E006FE4E7 /* entityManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = entityManager.cpp; sourceTree = "<group>"; };
@@ -49,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				372E172119BAE0EF00BA5861 /* JavaScriptCore.framework in Frameworks */,
 				6AF227191995EC2700E87C90 /* SDL2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -78,6 +81,7 @@
 		6AF227031995EB8000E87C90 = {
 			isa = PBXGroup;
 			children = (
+				372E172019BAE0EF00BA5861 /* JavaScriptCore.framework */,
 				6AF227181995EC2700E87C90 /* SDL2.framework */,
 				6AF2270E1995EB8000E87C90 /* sdl-hello */,
 				6AF2270D1995EB8000E87C90 /* Products */,

@@ -9,10 +9,55 @@
 #include "Game.h"
 #include <SDL2/SDL.h>
 #include <mach-o/dyld.h>
+#include <JavaScriptCore/JavaScriptCore.h>
 
 using namespace std;
 
+static JSValueRef console_log(JSContextRef ctx, JSObjectRef /*function*/, JSObjectRef thisObject, size_t /*argumentCount*/, const JSValueRef[] /*arguments*/, JSValueRef* /*exception*/);
 
+JSClassRef ConsoleClass()
+{
+    static JSStaticFunction staticFunctions[] = {
+        { "log", console_log, kJSPropertyAttributeNone }
+    };
+    
+    JSClassDefinition classDefinition = {
+        0, kJSClassAttributeNone, "console", 0, 0, staticFunctions,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    };
+    
+    static JSClassRef consoleClass = JSClassCreate(&classDefinition);
+    return consoleClass;
+}
+
+/**
+ * The callback from JavaScriptCore.  We told JSC to call this function
+ * whenever it sees "console.log".
+ */
+static JSValueRef console_log(JSContextRef ctx, JSObjectRef /*function*/, JSObjectRef thisObject, size_t argumentCount, const JSValueRef* arguments, JSValueRef* exception)
+{
+    if (!JSValueIsObjectOfClass(ctx, thisObject, ConsoleClass()))
+        return JSValueMakeUndefined(ctx);
+    
+    if (argumentCount < 1)
+        return JSValueMakeUndefined(ctx);
+    
+    // Convert the result into a string for display.
+    if (!JSValueIsString(ctx, arguments[0]))
+        return JSValueMakeUndefined(ctx);
+    
+    JSStringRef temp = JSValueToStringCopy (ctx, arguments[0], exception);
+    if (exception && *exception)
+        return JSValueMakeUndefined(ctx);
+    
+    char otherStr[1024];
+    JSStringGetUTF8CString(temp, otherStr, sizeof(char[1024]));
+    printf("Got console log %s\n", otherStr);
+    
+    JSStringRelease(temp);
+    
+    return JSValueMakeUndefined(ctx);
+}
 
 bool Game::init(const char* title, int xpos, int ypos, int width, int height, int flags) {
     if(SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
@@ -35,6 +80,40 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
         loadImage();
         gameRunning = true;
     }
+    
+    JSGlobalContextRef ctx = JSGlobalContextCreate(NULL);
+    
+    JSObjectRef global = JSContextGetGlobalObject(ctx);
+    assert(global);
+    
+    JSClassRef consoleClass = ConsoleClass();
+    assert(consoleClass);
+    
+    JSObjectRef scriptObj = JSObjectMake(ctx, consoleClass, static_cast<void*>(this));
+    assert(scriptObj);
+    
+    JSStringRef consoleName = JSStringCreateWithUTF8CString("console");
+    JSValueRef except;
+    JSObjectSetProperty(ctx, global, consoleName, scriptObj, kJSPropertyAttributeNone, &except);
+    
+    std::string functionString = "function main() { var foo = 'bar'; console.log(foo); return foo; }; main(); 'foo';";
+    JSStringRef jsString = JSStringCreateWithUTF8CString(functionString.c_str());
+    
+    JSValueRef error;
+    
+    JSValueRef ref = JSEvaluateScript(ctx, jsString, NULL, NULL, 1, &error);
+    
+    JSStringRef str = JSValueToStringCopy(ctx, error, NULL);
+    char myStr[1024];
+    JSStringGetUTF8CString(str, myStr, sizeof(char[1024]));
+    
+    JSStringRef strRef = JSValueToStringCopy(ctx, ref, NULL);
+    char otherStr[1024];
+    JSStringGetUTF8CString(strRef, otherStr, sizeof(char[1024]));
+    
+    JSStringRelease(strRef);
+    JSStringRelease(str);
+    
     return true;
 }
 
@@ -80,7 +159,7 @@ void Game::loadImage() {
         SDL_Quit();
     }
     
-    std::cout << "created texture successfully";
+    std::cout << "created texture successfully\n";
 }
 
 void Game::renderTexture(SDL_Texture *tex, SDL_Renderer *renderer, int x, int y) {
