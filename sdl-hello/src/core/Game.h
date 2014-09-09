@@ -13,6 +13,8 @@
 #include <SDL2/SDL.h>
 
 class Game {
+    char* data_path = NULL;
+    
 public:
     Game() {}
     ~Game() {}
@@ -29,7 +31,6 @@ public:
     
 private:
     bool gameRunning;
-    char* data_path = NULL;
     SDL_Window* mainWindow;
     SDL_Renderer* mainRenderer;
     SDL_Texture* mainTexture;

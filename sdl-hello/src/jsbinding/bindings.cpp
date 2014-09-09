@@ -8,6 +8,9 @@
 
 #include "bindings.h"
 #include "JavaScriptCore/JSValueRef.h"
+#include <iostream>
+#include <fstream>
+#include <string>
 
 JSClassRef ConsoleClass()
 {
@@ -103,6 +106,28 @@ static JSValueRef create_image(JSContextRef ctx, JSObjectRef /*function*/, JSObj
     return JSValueMakeUndefined(ctx);
 }
 
+std::string loadData(Game* game) {
+    std::string line;
+    std::string result = "";
+    std::string input = game->getPath("myscript.js");
+    std::ifstream openFile;
+    openFile.open(input.c_str(), std::ios::in);
+    
+    if (openFile.is_open()) {
+        while (std::getline(openFile, line))
+        {
+            result += line;
+        }
+        
+        openFile.close();
+    } else {
+        std::cout << "[ERROR] Unable to open file." << std::endl;
+        return "";
+    }
+    
+    return result;
+}
+
 void doBindings(Game* game) {
     JSGlobalContextRef ctx = JSGlobalContextCreate(NULL);
     
@@ -127,15 +152,7 @@ void doBindings(Game* game) {
     JSStringRef engineName = JSStringCreateWithUTF8CString("engine");
     JSObjectSetProperty(ctx, global, engineName, engineObj, kJSPropertyAttributeNone, NULL);
     
-    std::string functionString = "\
-    function main() { \
-        var foo = 'bar'; \
-        console.log(foo); \
-        engine.createImage('pixel_art.bmp'); \
-        return foo; \
-    }; \
-    main(); \
-    'foo';";
+    std::string functionString = loadData(game);
     JSStringRef jsString = JSStringCreateWithUTF8CString(functionString.c_str());
     
     std::cout << "Executing JS code..." << std::endl;

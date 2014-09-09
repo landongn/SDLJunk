@@ -10,7 +10,6 @@
 #define __sdl_hello__bindings__
 
 #include "Game.h"
-#include <iostream>
 #include <JavaScriptCore/JavaScriptCore.h>
 #include <JavaScriptCore/JSValueRef.h>
 
@@ -21,6 +20,8 @@ JSClassRef ConsoleClass();
 static JSValueRef create_image(JSContextRef ctx, JSObjectRef, JSObjectRef thisObject, size_t, const JSValueRef[], JSValueRef*);
 
 JSClassRef EngineClass();
+
+std::string loadData();
 
 void doBindings(Game*);
 
