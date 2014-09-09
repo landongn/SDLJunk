@@ -18,7 +18,8 @@ public:
     ~Game() {}
     
     bool init (const char* title, int xpos, int ypos, int width, int height, int flags);
-    void loadImage();
+    void loadImage(std::string name);
+    std::string getPath(std::string name);
     void renderTexture(SDL_Texture* tex, SDL_Renderer* renderer, int x, int y);
     void render();
     void update();
@@ -28,6 +29,7 @@ public:
     
 private:
     bool gameRunning;
+    char* data_path = NULL;
     SDL_Window* mainWindow;
     SDL_Renderer* mainRenderer;
     SDL_Texture* mainTexture;

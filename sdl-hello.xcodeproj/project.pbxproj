@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		372E171C19B8CFCF00BA5861 /* hello.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 372E171A19B8CEB100BA5861 /* hello.bmp */; };
 		372E172119BAE0EF00BA5861 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 372E172019BAE0EF00BA5861 /* JavaScriptCore.framework */; };
+		372E172519BECB5100BA5861 /* bindings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 372E172319BECB5100BA5861 /* bindings.cpp */; };
+		372E172919BEE65C00BA5861 /* hello.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 372E172619BEE63000BA5861 /* hello.bmp */; };
+		372E172A19BEE65C00BA5861 /* pixel_art.bmp in CopyFiles */ = {isa = PBXBuildFile; fileRef = 372E172719BEE63000BA5861 /* pixel_art.bmp */; };
 		6A1C41981996EFD6006FE4E7 /* abstractEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A1C41961996EFD6006FE4E7 /* abstractEntity.cpp */; };
 		6A1C419B1996F08E006FE4E7 /* entityManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A1C41991996F08E006FE4E7 /* entityManager.cpp */; };
 		6AC345621996B5E3004BC3C1 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AC345601996B5E3004BC3C1 /* Game.cpp */; };
@@ -18,13 +20,23 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		372E172819BEE64E00BA5861 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Resources;
+			dstSubfolderSpec = 7;
+			files = (
+				372E172919BEE65C00BA5861 /* hello.bmp in CopyFiles */,
+				372E172A19BEE65C00BA5861 /* pixel_art.bmp in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6AF2270A1995EB8000E87C90 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
-			dstPath = Resources;
+			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				372E171C19B8CFCF00BA5861 /* hello.bmp in CopyFiles */,
 				6AF227121995EB8000E87C90 /* sdl_hello.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -32,8 +44,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		372E171A19B8CEB100BA5861 /* hello.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = hello.bmp; path = "sdl-hello/hello.bmp"; sourceTree = "<group>"; };
 		372E172019BAE0EF00BA5861 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		372E172319BECB5100BA5861 /* bindings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bindings.cpp; path = jsbinding/bindings.cpp; sourceTree = "<group>"; };
+		372E172419BECB5100BA5861 /* bindings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bindings.h; path = jsbinding/bindings.h; sourceTree = "<group>"; };
+		372E172619BEE63000BA5861 /* hello.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = hello.bmp; path = "sdl-hello/Resources/hello.bmp"; sourceTree = "<group>"; };
+		372E172719BEE63000BA5861 /* pixel_art.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = pixel_art.bmp; path = "sdl-hello/Resources/pixel_art.bmp"; sourceTree = "<group>"; };
 		6A1C41961996EFD6006FE4E7 /* abstractEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = abstractEntity.cpp; sourceTree = "<group>"; };
 		6A1C41971996EFD6006FE4E7 /* abstractEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = abstractEntity.h; sourceTree = "<group>"; };
 		6A1C41991996F08E006FE4E7 /* entityManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = entityManager.cpp; sourceTree = "<group>"; };
@@ -62,9 +77,19 @@
 		372E171B19B8CFC000BA5861 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				372E171A19B8CEB100BA5861 /* hello.bmp */,
+				372E172619BEE63000BA5861 /* hello.bmp */,
+				372E172719BEE63000BA5861 /* pixel_art.bmp */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		372E172219BECB2800BA5861 /* jsbinding */ = {
+			isa = PBXGroup;
+			children = (
+				372E172319BECB5100BA5861 /* bindings.cpp */,
+				372E172419BECB5100BA5861 /* bindings.h */,
+			);
+			name = jsbinding;
 			sourceTree = "<group>";
 		};
 		6A1C41951996EFCA006FE4E7 /* entity */ = {
@@ -110,6 +135,7 @@
 		6AF2271C1995F83A00E87C90 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				372E172219BECB2800BA5861 /* jsbinding */,
 				6A1C41951996EFCA006FE4E7 /* entity */,
 				6AF2271D1995F83A00E87C90 /* core */,
 			);
@@ -135,6 +161,7 @@
 				6AF227081995EB8000E87C90 /* Sources */,
 				6AF227091995EB8000E87C90 /* Frameworks */,
 				6AF2270A1995EB8000E87C90 /* CopyFiles */,
+				372E172819BEE64E00BA5861 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -180,6 +207,7 @@
 				6A1C41981996EFD6006FE4E7 /* abstractEntity.cpp in Sources */,
 				6A1C419B1996F08E006FE4E7 /* entityManager.cpp in Sources */,
 				6AF227101995EB8000E87C90 /* main.cpp in Sources */,
+				372E172519BECB5100BA5861 /* bindings.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +295,7 @@
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -282,6 +311,7 @@
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
