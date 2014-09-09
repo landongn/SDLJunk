@@ -61,24 +61,26 @@ static JSValueRef console_log(JSContextRef ctx, JSObjectRef /*function*/, JSObje
 
 bool Game::init(const char* title, int xpos, int ypos, int width, int height, int flags) {
     if(SDL_Init(SDL_INIT_EVERYTHING) != SUCCESS) {
-        std::cout << "SDL_Init failure!" << std::endl;
+        std::cout << "SDL_Init failure! " << SDL_GetError() << std::endl;
         return false;
     }
     
     mainWindow = SDL_CreateWindow(title, xpos, ypos, height, width, flags);
     if(!mainWindow) {
-        std::cout << "SDL_CreateWindow failure!" << std::endl;
+        std::cout << "SDL_CreateWindow failure! " << SDL_GetError() << std::endl;
         return false;
     }
     
     mainRenderer = SDL_CreateRenderer(mainWindow, -1, 0);
     if (!mainRenderer) {
-        std::cout << "SDL_CreateRenderer failure!" << std::endl;
+        std::cout << "SDL_CreateRenderer failure! " << SDL_GetError() << std::endl;
         return false;
     }
-    
     std::cout << "Renderer created successfully!" << std::endl;
-    SDL_SetRenderDrawColor(mainRenderer, 255, 255, 255, 255);
+    
+    if (SUCCESS != SDL_SetRenderDrawColor(mainRenderer, 255, 255, 255, 255)) {
+        std::cout << "SDL_SetRenderDrawColor failure! " << SDL_GetError() << std::endl;
+    }
     
     std::cout << "Game running!" << std::endl;
     loadImage();
@@ -147,22 +149,22 @@ void Game::loadImage() {
     
     SDL_Surface *bmp = SDL_LoadBMP(imagePath.c_str());
     if (!bmp) {
+        std::cout << "Failed to create image. " << SDL_GetError() << std::endl;
         SDL_DestroyRenderer(mainRenderer);
         SDL_DestroyWindow(mainWindow);
-        std::cout << "Failed to create image." << std::endl;
         SDL_Quit();
     }
     
     mainTexture = SDL_CreateTextureFromSurface(mainRenderer, bmp);
     SDL_FreeSurface(bmp);
     if (!mainTexture) {
+        std::cout << "Failed to create texture. " << SDL_GetError() << std::endl;
         SDL_DestroyRenderer(mainRenderer);
         SDL_DestroyWindow(mainWindow);
-        std::cout << "Failed to create texture." << std::endl;
         SDL_Quit();
     }
     
-    std::cout << "created texture successfully." << std::endl;
+    std::cout << "Created texture successfully." << std::endl;
 }
 
 void Game::renderTexture(SDL_Texture *tex, SDL_Renderer *renderer, int x, int y) {
