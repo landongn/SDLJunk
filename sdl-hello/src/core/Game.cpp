@@ -11,7 +11,7 @@
 #include <SDL2/SDL.h>
 #include <mach-o/dyld.h>
 
-using namespace std;
+static const uint8_t SUCCESS = 0;
 
 bool Game::init(const char* title, int xpos, int ypos, int width, int height, int flags) {
     // Grab the base resource path
@@ -23,29 +23,34 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
         data_path = SDL_strdup("./");
     }
     
-    if(SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
-        mainWindow = SDL_CreateWindow(title, xpos, ypos, height, width, flags);
-        if(mainWindow != 0) {
-            mainRenderer = SDL_CreateRenderer(mainWindow, -1, 0);
-
-            if (mainRenderer != 0) {
-                std::cout << "renderer created successfully \n";
-                SDL_SetRenderDrawColor(mainRenderer, 255, 255, 255, 255);
-            } else {
-                std::cout << "renderer failed to create\n";
-                return false;
-            }
-        } else {
-            std::cout << "Window failure. \n";
-            return false;
-        }
-        std::cout << "game running.\n";
-        
-        doBindings(this);
-        
-        gameRunning = true;
+    if(SDL_Init(SDL_INIT_EVERYTHING) != SUCCESS) {
+        std::cout << "SDL_Init failure! " << SDL_GetError() << std::endl;
+        return false;
     }
+    
+    mainWindow = SDL_CreateWindow(title, xpos, ypos, height, width, flags);
+    if(!mainWindow) {
+        std::cout << "SDL_CreateWindow failure! " << SDL_GetError() << std::endl;
+        return false;
+    }
+    
+    mainRenderer = SDL_CreateRenderer(mainWindow, -1, 0);
+    if (!mainRenderer) {
+        std::cout << "SDL_CreateRenderer failure! " << SDL_GetError() << std::endl;
+        return false;
+    }
+    std::cout << "Renderer created successfully!" << std::endl;
+    
+    if (SUCCESS != SDL_SetRenderDrawColor(mainRenderer, 255, 255, 255, 255)) {
+        std::cout << "SDL_SetRenderDrawColor failure! " << SDL_GetError() << std::endl;
+    }
+    
+    std::cout << "Game running!" << std::endl;
+    
+    doBindings(this);
 
+    gameRunning = true;
+    
     return true;
 }
 
@@ -59,27 +64,27 @@ std::string Game::getPath(std::string name) {
 
 void Game::loadImage(std::string name) {
     std::string imagePath = getPath(name);
-
-    printf("Location is %s\n", imagePath.c_str());
-
+    
+    std::cout << "Location is" << imagePath.c_str() << std::endl;
+    
     SDL_Surface *bmp = SDL_LoadBMP(imagePath.c_str());
-    if (bmp == nullptr) {
+    if (!bmp) {
+        std::cout << "Failed to create image. " << SDL_GetError() << std::endl;
         SDL_DestroyRenderer(mainRenderer);
         SDL_DestroyWindow(mainWindow);
-        std::cout << "Failed to create image.\n";
         SDL_Quit();
     }
 
     mainTexture = SDL_CreateTextureFromSurface(mainRenderer, bmp);
     SDL_FreeSurface(bmp);
-    if (mainTexture == nullptr) {
+    if (!mainTexture) {
+        std::cout << "Failed to create texture. " << SDL_GetError() << std::endl;
         SDL_DestroyRenderer(mainRenderer);
         SDL_DestroyWindow(mainWindow);
-        std::cout << "Failed to create texture.\n";
         SDL_Quit();
     }
-
-    std::cout << "created texture successfully\n";
+    
+    std::cout << "Created texture successfully." << std::endl;
 }
 
 void Game::renderTexture(SDL_Texture *tex, SDL_Renderer *renderer, int x, int y) {
@@ -91,20 +96,20 @@ void Game::renderTexture(SDL_Texture *tex, SDL_Renderer *renderer, int x, int y)
 }
 
 void Game::render() {
-    if (gameRunning == true) {
-        SDL_RenderClear(this->mainRenderer);
-
-        if (mainTexture != nullptr) {
+    if (gameRunning) {
+        SDL_RenderClear(mainRenderer);
+    
+        if (mainTexture) {
             renderTexture(mainTexture, mainRenderer, m_x, m_y);
             //m_x += 1;
         }
-
-        SDL_RenderPresent(this->mainRenderer);
+    
+        SDL_RenderPresent(mainRenderer);
     }
 }
 
 bool Game::running() {
-    return this->gameRunning;
+    return gameRunning;
 }
 
 void Game::update() {
@@ -112,9 +117,9 @@ void Game::update() {
 }
 
 void Game::clean() {
-    std::cout << "cleaning game\n";
-    SDL_DestroyWindow(this->mainWindow);
-    SDL_DestroyRenderer(this->mainRenderer);
+    std::cout << "cleaning game" << std::endl;
+    SDL_DestroyWindow(mainWindow);
+    SDL_DestroyRenderer(mainRenderer);
     SDL_Quit();
 }
 
@@ -123,10 +128,10 @@ void Game::handleEvents() {
     if (SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_QUIT:
-                this->gameRunning = false;
+                gameRunning = false;
                 break;
             case SDL_KEYDOWN:
-                this->gameRunning = false;
+                gameRunning = false;
                 break;
             default:
                 break;

@@ -15,7 +15,7 @@ JSClassRef ConsoleClass()
         { "log", console_log, kJSPropertyAttributeNone }
     };
     
-    JSClassDefinition classDefinition = {
+    static JSClassDefinition classDefinition = {
         0, kJSClassAttributeNone, "console", 0, 0, staticFunctions,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
@@ -59,7 +59,7 @@ JSClassRef EngineClass()
         { "createImage", create_image, kJSPropertyAttributeNone }
     };
     
-    JSClassDefinition classDefinition = {
+    static JSClassDefinition classDefinition = {
         0, kJSClassAttributeNone, "engine", 0, 0, staticFunctions,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
@@ -74,6 +74,7 @@ JSClassRef EngineClass()
  */
 static JSValueRef create_image(JSContextRef ctx, JSObjectRef /*function*/, JSObjectRef thisObject, size_t argumentCount, const JSValueRef* arguments, JSValueRef* exception)
 {
+    std::cout << "CREATING" << std::endl;
     if (!JSValueIsObjectOfClass(ctx, thisObject, EngineClass()))
         return JSValueMakeUndefined(ctx);
     
@@ -136,6 +137,8 @@ void doBindings(Game* game) {
     main(); \
     'foo';";
     JSStringRef jsString = JSStringCreateWithUTF8CString(functionString.c_str());
+    
+    std::cout << "Executing JS code..." << std::endl;
     
     JSValueRef exception = NULL;
     JSValueRef ref = JSEvaluateScript(ctx, jsString, NULL, NULL, 1, &exception);
