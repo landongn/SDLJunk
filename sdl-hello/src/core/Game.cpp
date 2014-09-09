@@ -11,7 +11,7 @@
 #include <mach-o/dyld.h>
 #include <JavaScriptCore/JavaScriptCore.h>
 
-using namespace std;
+static const uint8_t SUCCESS = 0;
 
 static JSValueRef console_log(JSContextRef ctx, JSObjectRef /*function*/, JSObjectRef thisObject, size_t /*argumentCount*/, const JSValueRef[] /*arguments*/, JSValueRef* /*exception*/);
 
@@ -52,7 +52,7 @@ static JSValueRef console_log(JSContextRef ctx, JSObjectRef /*function*/, JSObje
     
     char otherStr[1024];
     JSStringGetUTF8CString(temp, otherStr, sizeof(char[1024]));
-    printf("Got console log %s\n", otherStr);
+    std::cout << "Got console log " << otherStr << std::endl;
     
     JSStringRelease(temp);
     
@@ -60,26 +60,29 @@ static JSValueRef console_log(JSContextRef ctx, JSObjectRef /*function*/, JSObje
 }
 
 bool Game::init(const char* title, int xpos, int ypos, int width, int height, int flags) {
-    if(SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
-        mainWindow = SDL_CreateWindow(title, xpos, ypos, height, width, flags);
-        if(mainWindow != 0) {
-            mainRenderer = SDL_CreateRenderer(mainWindow, -1, 0);
-
-            if (mainRenderer != 0) {
-                std::cout << "renderer created successfully \n";
-                SDL_SetRenderDrawColor(mainRenderer, 255, 255, 255, 255);
-            } else {
-                std::cout << "renderer failed to create\n";
-                return false;
-            }
-        } else {
-            std::cout << "Window failure. \n";
-            return false;
-        }
-        std::cout << "game running.\n";
-        loadImage();
-        gameRunning = true;
+    if(SDL_Init(SDL_INIT_EVERYTHING) != SUCCESS) {
+        std::cout << "SDL_Init failure!" << std::endl;
+        return false;
     }
+    
+    mainWindow = SDL_CreateWindow(title, xpos, ypos, height, width, flags);
+    if(!mainWindow) {
+        std::cout << "SDL_CreateWindow failure!" << std::endl;
+        return false;
+    }
+    
+    mainRenderer = SDL_CreateRenderer(mainWindow, -1, 0);
+    if (!mainRenderer) {
+        std::cout << "SDL_CreateRenderer failure!" << std::endl;
+        return false;
+    }
+    
+    std::cout << "Renderer created successfully!" << std::endl;
+    SDL_SetRenderDrawColor(mainRenderer, 255, 255, 255, 255);
+    
+    std::cout << "Game running!" << std::endl;
+    loadImage();
+    gameRunning = true;
     
     JSGlobalContextRef ctx = JSGlobalContextCreate(NULL);
     
@@ -122,8 +125,8 @@ std::string getPath(std::string name) {
     uint32_t size = sizeof(char[1024]);
     std::string result;
     
-    if (_NSGetExecutablePath(path, &size) != 0) {
-        printf("buffer too small; need size %u\n", size);
+    if (_NSGetExecutablePath(path, &size) != SUCCESS) {
+        std::cout << "Buffer too small, need size " << size << std::endl;
         realloc(path, size);
         _NSGetExecutablePath(path, &size);
     }
@@ -140,26 +143,26 @@ std::string getPath(std::string name) {
 void Game::loadImage() {
     std::string imagePath = getPath("hello.bmp");
     
-    printf("Location is %s\n", imagePath.c_str());
+    std::cout << "Location is " << imagePath.c_str() << std::endl;
     
     SDL_Surface *bmp = SDL_LoadBMP(imagePath.c_str());
-    if (bmp == nullptr) {
+    if (!bmp) {
         SDL_DestroyRenderer(mainRenderer);
         SDL_DestroyWindow(mainWindow);
-        std::cout << "Failed to create image.\n";
+        std::cout << "Failed to create image." << std::endl;
         SDL_Quit();
     }
     
     mainTexture = SDL_CreateTextureFromSurface(mainRenderer, bmp);
     SDL_FreeSurface(bmp);
-    if (mainTexture == nullptr) {
+    if (!mainTexture) {
         SDL_DestroyRenderer(mainRenderer);
         SDL_DestroyWindow(mainWindow);
-        std::cout << "Failed to create texture.\n";
+        std::cout << "Failed to create texture." << std::endl;
         SDL_Quit();
     }
     
-    std::cout << "created texture successfully\n";
+    std::cout << "created texture successfully." << std::endl;
 }
 
 void Game::renderTexture(SDL_Texture *tex, SDL_Renderer *renderer, int x, int y) {
@@ -171,20 +174,20 @@ void Game::renderTexture(SDL_Texture *tex, SDL_Renderer *renderer, int x, int y)
 }
 
 void Game::render() {
-    if (gameRunning == true) {
-        SDL_RenderClear(this->mainRenderer);
+    if (gameRunning) {
+        SDL_RenderClear(mainRenderer);
     
-        if (mainTexture != nullptr) {
+        if (mainTexture) {
             renderTexture(mainTexture, mainRenderer, m_x, m_y);
             //m_x += 1;
         }
     
-        SDL_RenderPresent(this->mainRenderer);
+        SDL_RenderPresent(mainRenderer);
     }
 }
 
 bool Game::running() {
-    return this->gameRunning;
+    return gameRunning;
 }
 
 void Game::update() {
@@ -192,9 +195,9 @@ void Game::update() {
 }
 
 void Game::clean() {
-    std::cout << "cleaning game\n";
-    SDL_DestroyWindow(this->mainWindow);
-    SDL_DestroyRenderer(this->mainRenderer);
+    std::cout << "cleaning game" << std::endl;
+    SDL_DestroyWindow(mainWindow);
+    SDL_DestroyRenderer(mainRenderer);
     SDL_Quit();
 }
 
@@ -203,10 +206,10 @@ void Game::handleEvents() {
     if (SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_QUIT:
-                this->gameRunning = false;
+                gameRunning = false;
                 break;
             case SDL_KEYDOWN:
-                this->gameRunning = false;
+                gameRunning = false;
                 break;
             default:
                 break;
