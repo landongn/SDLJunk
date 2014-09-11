@@ -12,8 +12,10 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
+#include "entityManager.h"
+
 class Game {
-    char* data_path = NULL;
+    EntityManager* _entityManager;
     
 public:
     Game() {}
@@ -21,7 +23,6 @@ public:
     
     bool init (const char* title, int xpos, int ypos, int width, int height, int flags);
     void loadImage(std::string name);
-    std::string getPath(std::string name);
     void renderTexture(SDL_Texture* tex, SDL_Renderer* renderer, int x, int y);
     void render();
     void update();

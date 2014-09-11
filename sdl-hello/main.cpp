@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 
+#include "src/file/file.h"
 #include "src/core/Game.h"
 
 enum ExitCodes {
@@ -19,7 +20,6 @@ enum ExitCodes {
 };
 
 int main(int argc, const char * argv[]) {
-    
     Game* _game(new Game());
     if(!_game){
         std::cout << "Could not create Game object." << std::endl;

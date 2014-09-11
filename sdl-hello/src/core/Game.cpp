@@ -8,20 +8,14 @@
 
 #include "Game.h"
 #include "bindings.h"
+#include "file.h"
 #include <SDL2/SDL.h>
 #include <mach-o/dyld.h>
 
 static const uint8_t SUCCESS = 0;
 
 bool Game::init(const char* title, int xpos, int ypos, int width, int height, int flags) {
-    // Grab the base resource path
-    char *base_path = SDL_GetBasePath();
-    if (base_path) {
-        data_path = SDL_strdup(base_path);
-        SDL_free(base_path);
-    } else {
-        data_path = SDL_strdup("./");
-    }
+    _entityManager = new EntityManager();
     
     if(SDL_Init(SDL_INIT_EVERYTHING) != SUCCESS) {
         std::cout << "SDL_Init failure! " << SDL_GetError() << std::endl;
@@ -54,16 +48,8 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
     return true;
 }
 
-std::string Game::getPath(std::string name) {
-    std::string result;
-
-    result = std::string(data_path) + "Resources/" + name;
-
-    return result;
-}
-
 void Game::loadImage(std::string name) {
-    std::string imagePath = getPath(name);
+    std::string imagePath = file::GetPath(name);
     
     std::cout << "Location is" << imagePath.c_str() << std::endl;
     
@@ -101,7 +87,6 @@ void Game::render() {
     
         if (mainTexture) {
             renderTexture(mainTexture, mainRenderer, m_x, m_y);
-            //m_x += 1;
         }
     
         SDL_RenderPresent(mainRenderer);

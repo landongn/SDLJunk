@@ -7,6 +7,7 @@
 //
 
 #include "bindings.h"
+#include "file.h"
 #include "JavaScriptCore/JSValueRef.h"
 #include <iostream>
 #include <fstream>
@@ -109,7 +110,7 @@ static JSValueRef create_image(JSContextRef ctx, JSObjectRef /*function*/, JSObj
 std::string loadData(Game* game) {
     std::string line;
     std::string result = "";
-    std::string input = game->getPath("myscript.js");
+    std::string input = file::GetPath("myscript.js");
     std::ifstream openFile;
     openFile.open(input.c_str(), std::ios::in);
     

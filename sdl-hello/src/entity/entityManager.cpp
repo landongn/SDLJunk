@@ -7,3 +7,19 @@
 //
 
 #include "entityManager.h"
+
+EntityManager::EntityManager() {
+    
+}
+
+void EntityManager::createEntity() {
+    _entities.push_back(new Entity());
+}
+
+void EntityManager::render(SDL_Renderer *renderer) {
+    
+}
+
+EntityManager::~EntityManager() {
+    
+}
