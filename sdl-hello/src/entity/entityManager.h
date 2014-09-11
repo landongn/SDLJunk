@@ -10,5 +10,20 @@
 #define __sdl_hello__entityManager__
 
 #include <iostream>
+#include <vector>
+#include <SDL2/SDL.h>
+
+#include "entity.h"
+
+class EntityManager {
+    std::vector<Entity*> _entities;
+    
+public:
+    EntityManager();
+    ~EntityManager();
+    
+    void createEntity();
+    void render(SDL_Renderer *renderer);
+};
 
 #endif /* defined(__sdl_hello__entityManager__) */
